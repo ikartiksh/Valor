@@ -1,6 +1,6 @@
 services:
   frontend:
-    build: ./templates
+    build: ./frontend
     ports:
       - "80:80"
     depends_on:

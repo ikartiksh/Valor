@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Router, Routes, Route, Navigate } from 'react-router-dom';
 import Sidenav from './widgets/layout/sidenav';
 import { ThemeProvider } from '@material-tailwind/react';
 import DashboardNavbar from './widgets/layout/dashboard-navbar';
@@ -21,33 +21,81 @@ function App() {
   return (
     <ThemeProvider>
       <MaterialTailwindControllerProvider>
-      <Router>
-        <Routes>
-          <Route path="/auth/sign-in" element={<SignIn />} />
-          <Route path="/auth/sign-up" element={<SignUp />} />
-          <Route
-            path="/dashboard/*"
-            element={
-              <ProtectedRoute>
-                <div className="min-h-screen bg-blue-gray-50/50">
-                  <Sidenav routes={routes} />
-                  <div className="p-4 xl:ml-80">
-                    <DashboardNavbar />
-                    <Routes>
-                      <Route path="home" element={<Home />} />
-                      <Route path="profile" element={<Profile />} />
-                      <Route path="tables" element={<Tables />} />
-                      <Route path="notifications" element={<Notifications />} />
-                      <Route path="*" element={<Navigate to="home" />} />
-                    </Routes>
+          <Routes>
+            <Route path="/auth/sign-in" element={<SignIn />} />
+            <Route path="/auth/sign-up" element={<SignUp />} />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <div className="min-h-screen bg-blue-gray-50/50">
+                    <Sidenav routes={routes} />
+                    <div className="p-4 xl:ml-80">
+                      <DashboardNavbar />
+                    </div>
                   </div>
-                </div>
-              </ProtectedRoute>
-            }
-          />
-          <Route path="/" element={<Navigate to="/auth/sign-in" />} />
-        </Routes>
-      </Router>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard/home"
+              element={
+                <ProtectedRoute>
+                  <div className="min-h-screen bg-blue-gray-50/50">
+                    <Sidenav routes={routes} />
+                    <div className="p-4 xl:ml-80">
+                      <DashboardNavbar />
+                      <Home />
+                    </div>
+                  </div>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard/profile"
+              element={
+                <ProtectedRoute>
+                  <div className="min-h-screen bg-blue-gray-50/50">
+                    <Sidenav routes={routes} />
+                    <div className="p-4 xl:ml-80">
+                      <DashboardNavbar />
+                      <Profile />
+                    </div>
+                  </div>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard/tables"
+              element={
+                <ProtectedRoute>
+                  <div className="min-h-screen bg-blue-gray-50/50">
+                    <Sidenav routes={routes} />
+                    <div className="p-4 xl:ml-80">
+                      <DashboardNavbar />
+                      <Tables />
+                    </div>
+                  </div>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard/notifications"
+              element={
+                <ProtectedRoute>
+                  <div className="min-h-screen bg-blue-gray-50/50">
+                    <Sidenav routes={routes} />
+                    <div className="p-4 xl:ml-80">
+                      <DashboardNavbar />
+                      <Notifications />
+                    </div>
+                  </div>
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/dashboard/*" element={<Navigate to="/dashboard/home" />} />
+            <Route path="/" element={<Navigate to="/auth/sign-in" />} />
+          </Routes>
       </MaterialTailwindControllerProvider>
     </ThemeProvider>
   );
