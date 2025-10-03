@@ -30,7 +30,7 @@ function App() {
             element={
               <ProtectedRoute>
                 <div className="min-h-screen bg-blue-gray-50/50">
-                  <Sidenav />
+                  <Sidenav routes={routes} />
                   <div className="p-4 xl:ml-80">
                     <DashboardNavbar />
                     <Routes>
