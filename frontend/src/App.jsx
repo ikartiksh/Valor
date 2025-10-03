@@ -1,36 +1,55 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import HomePage from './pages/HomePage.jsx';
-import LoginPage from './pages/LoginPage.jsx';
-import SignupPage from './pages/SignupPage.jsx';
-import DashboardPage from './pages/DashboardPage.jsx';
-import MainLayout from './layouts/MainLayout.jsx';
-import { useState } from 'react';
+import Sidenav from './widgets/layout/sidenav';
+import { ThemeProvider } from '@material-tailwind/react';
+import DashboardNavbar from './widgets/layout/dashboard-navbar';
+import SignIn from './pages/auth/sign-in';
+import SignUp from './pages/auth/sign-up';
+import Home from './pages/dashboard/home';
+import Profile from './pages/dashboard/profile';
+import Tables from './pages/dashboard/tables';
+import Notifications from './pages/dashboard/notifications';
+import routes from './routes';
+import { MaterialTailwindControllerProvider } from './context';
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
+  const isAuthenticated = !!localStorage.getItem('token');
 
   const ProtectedRoute = ({ children }) => {
-    return isAuthenticated ? children : <Navigate to="/login" />;
+    return isAuthenticated ? children : <Navigate to="/auth/sign-in" />;
   };
 
   return (
-    <Router>
-      <MainLayout>
+    <ThemeProvider>
+      <MaterialTailwindControllerProvider>
+      <Router>
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginPage setAuth={setIsAuthenticated} />} />
-          <Route path="/signup" element={<SignupPage setAuth={setIsAuthenticated} />} />
+          <Route path="/auth/sign-in" element={<SignIn />} />
+          <Route path="/auth/sign-up" element={<SignUp />} />
           <Route
-            path="/dashboard"
+            path="/dashboard/*"
             element={
               <ProtectedRoute>
-                <DashboardPage />
+                <div className="min-h-screen bg-blue-gray-50/50">
+                  <Sidenav />
+                  <div className="p-4 xl:ml-80">
+                    <DashboardNavbar />
+                    <Routes>
+                      <Route path="home" element={<Home />} />
+                      <Route path="profile" element={<Profile />} />
+                      <Route path="tables" element={<Tables />} />
+                      <Route path="notifications" element={<Notifications />} />
+                      <Route path="*" element={<Navigate to="home" />} />
+                    </Routes>
+                  </div>
+                </div>
               </ProtectedRoute>
             }
           />
+          <Route path="/" element={<Navigate to="/auth/sign-in" />} />
         </Routes>
-      </MainLayout>
-    </Router>
+      </Router>
+      </MaterialTailwindControllerProvider>
+    </ThemeProvider>
   );
 }
 
