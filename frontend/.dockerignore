@@ -1,0 +1,8 @@
+Ignore the local node_modules folder
+node_modules
+
+Ignore build output
+build
+
+Ignore local environment files
+.env
